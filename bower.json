@@ -1,0 +1,20 @@
+{
+  "name": "NewETS",
+  "version": "0.0.1",
+  "homepage": "https://github.com/Humerus/NewETS",
+  "authors": [
+    "NewETS Team"
+  ],
+  "main": "app.js",
+  "license": "GPL v2",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "eonasdan-bootstrap-datetimepicker": "~4.7.14"
+  }
+}
