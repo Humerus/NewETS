@@ -171,8 +171,8 @@ def updateLocation(message):
     message = json.loads(message)
     print message
     data = drivers.find_one({"number": int(message["number"])})
-    data.update(message)
-    drivers.update({"_id", data["_id"]}, data)
+    # data.update(message)
+    # drivers.update({"_id", data["_id"]}, data)
 
 
 @socketio.on('zipCode')
@@ -180,8 +180,8 @@ def updateZipCode(message):
     message = json.loads(message)
     print message
     data = drivers.find_one({"number": int(message["number"])})
-    data.update(message)
-    drivers.update({"_id", data["_id"]}, data)
+    # data.update(message)
+    # drivers.update({"_id", data["_id"]}, data)
 
 
 #@app.route("/api/askDriver", methods=['POST'])
