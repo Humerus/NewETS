@@ -202,8 +202,8 @@ def parseMessage():
     text = request.args.get("text", "")
 
     if "yes" in str(text).lower():
-        tellDriver(int(request.args.get("msisdn", "")), "Thank you for accepting to help this person! If you have any other questions, please ask!")
-        driverYes(int(request.args.get("msisdn", "")))
+        tellDriver(request.args.get("msisdn", "")[1:], "Thank you for accepting to help this person! If you have any other questions, please ask!")
+        driverYes(int(request.args.get("msisdn", "")[1:]))
     return jsonify(status=True)
 
 
