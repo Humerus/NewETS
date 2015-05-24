@@ -49,14 +49,14 @@
                         <label for="zip_apt" class="control_label">Zip</label>
                         <input type="number" name="zip_apt" class="form-control" placeholder="424242">
                     </div>
-                    <div class="form-group">
-                        <label for="time_apt" class="control-label">Appointment Time</label>
-                        <div class='input-group date form-control' id="time_apt_frm">
-                            <input type='text' class="form-control" name='time_apt'>
-                            <span class="input-group-addon">
-                                <span class="glyphicon glyphicon-calendar"></span>
-                            </span>
-                        </div>
+                    <div class="input-group form-control" id="time_apt_frm">
+                      <label for="time_apt" class="control-label">Appointment Time</label>
+                      <div class="form-group date">
+                        <input type='text' class="form-control" name='time_apt'>
+                        <span class="input-group-addon">
+                          <button class="glyphicon glyphicon-calendar"></button>
+                        </span>
+                      </div>
                     </div>
                     <div class="form-group">
                         <button type="submit" class="btn-info" style="float: right;">Submit!</button>
