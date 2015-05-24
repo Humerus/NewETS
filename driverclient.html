@@ -47,7 +47,7 @@
             });
             zipcode["number"] = number;
             if (typeof zipcode !== undefined) {
-                socket.emit("zipCode", zipcode);
+                socket.emit("zipCode", JSON.stringify(zipcode));
             }
         });
     }
