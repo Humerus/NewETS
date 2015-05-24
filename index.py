@@ -200,11 +200,9 @@ def askDriver(number, fromAddress, toAddress, time):
 @app.route("/api/parseMessage", methods=['GET'])
 def parseMessage():
     text = request.args.get("text", "")
-    print type(str(text).lower())
-    print type("yes")
+    
     if "yes" in str(text).lower():
-        print text
-        tellDriver(number, "Thank you for accepting to help this person! If you have any other questions, please ask!")
+        tellDriver(request.args.get("msisdn", ""), "Thank you for accepting to help this person! If you have any other questions, please ask!")
         driverYes(request.form.get("msisdn", ""))
     return jsonify(status=True)
 
