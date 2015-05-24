@@ -202,7 +202,7 @@ def parseMessage():
     text = request.args.get("text", "")
     print type(str(text).lower())
     print type("yes")
-    if str(text).lower() is "yes":
+    if "yes" in str(text).lower():
         print text
         tellDriver(number, "Thank you for accepting to help this person! If you have any other questions, please ask!")
         driverYes(request.form.get("msisdn", ""))
