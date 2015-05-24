@@ -139,7 +139,7 @@ def createAppointment():
             askDriver(i['number'], str_cli + " " + cit_cli + " " + sta_cli + " " + zip_cli, str_apt + " " + cit_apt + " " + sta_apt + " " + zip_apt, time_apt)
             i["notifiedFor"] = apt_id
             drivers.update({"_id": i["_id"]}, i)
-    return jsonify(status=True)
+    return redirect(url_for("index"))
 
 
 @app.route("/api/login", methods=['POST'])
@@ -200,7 +200,9 @@ def askDriver(number, fromAddress, toAddress, time):
 @app.route("/api/parseMessage", methods=['GET'])
 def parseMessage():
     text = request.form.get("text", "")
+    print request.form
     if text is not "" and text.lower() is "yes":
+        print text
         tellDriver(number, "Thank you for accepting to help this person! If you have any other questions, please ask!")
         driverYes(request.form.get("msisdn", ""))
     return jsonify(status=True)
