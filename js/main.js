@@ -2,7 +2,11 @@ $(function() {
     $('#page-content').pagify({
         pages: ['home', 'about', 'signup', 'clients', 'managers', 'login', 'driverclient'],
         default: 'home',
-        animation: 'fadeIn'
+        animation: 'fadeIn',
+        onChange: function(name){
+          var capitalized = name.substr(0, 1).toUpperCase() + name.substr(1);
+          $(document).prop('title', 'NewETS · ' + capitalized);
+        }
     });
 });
 
