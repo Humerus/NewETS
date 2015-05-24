@@ -1,6 +1,6 @@
 $(function() {
     $('#page-content').pagify({
-        pages: ['home', 'about', 'signup', 'clients', 'managers', 'login'],
+        pages: ['home', 'about', 'signup', 'clients', 'managers', 'login', 'driverclient'],
         default: 'home',
         animation: 'fadeIn'
     });

@@ -1,0 +1,54 @@
+<div class="jumbotron" id="map" style="height: 100%">
+    <div class="container text-center" id="controls" style="max-width: 400px">
+        <input type="number" name="number" id="number" placeholder="Phone number">
+        <br>
+        <br>
+        <br>
+        <a onclick="startGeo();" class="btn btn-info center-block">Start tracking</a>
+    </div>
+    <pre id="data" class="text-center" style="display: none">
+        Updating Location Data:
+    </pre>
+</div>
+
+<script>
+    function startGeo() {
+        number = $("#number").val();
+        socket = io.connect('http://' + document.domain + ':' + location.port);
+
+        nav = navigator.geolocation.watchPosition(GetLocation);
+        $("#controls").hide();
+        $("#data").show();
+    }
+
+    function GetLocation(location) {
+        data = {};
+        data["number"] = number;
+        data["accuracy"] = location.coords.accuracy;
+        data["heading"] = location.coords.heading;
+        data["speed"] = location.coords.speed;
+        data["latitude"] = location.coords.latitude;
+        data["longitude"] = location.coords.longitude;
+        data["timestamp"] = location.timestamp;
+        socket.emit("updateLocation", JSON.stringify(data));
+        $("#data").text($("#data").text() + "\nLatitude:" + data["latitude"] + "; Longitude:" + data["longitude"]);
+        showPosition(location);
+    }
+
+    function showPosition(position) {
+        zipcode = {}
+        $.getJSON("http://maps.googleapis.com/maps/api/geocode/json?latlng=" + position.coords.latitude + "," + position.coords.longitude + "&sensor=false", function(json) {
+            json["results"].forEach(function(data, elem) {
+                data["address_components"].forEach(function(data2, elem2) {
+                    if (data2["types"][0] == "postal_code") {
+                        zipcode["zip"] = data2["long_name"];
+                    }
+                });
+            });
+            zipcode["number"] = number;
+            if (typeof zipcode !== undefined) {
+                socket.emit("zipCode", zipcode);
+            }
+        });
+    }
+</script>
