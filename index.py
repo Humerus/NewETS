@@ -200,8 +200,8 @@ def askDriver(number, fromAddress, toAddress, time):
 @app.route("/api/parseMessage", methods=['GET'])
 def parseMessage():
     text = request.args.get("text", "")
-    print str(text).lower()
-    print "yes"
+    print type(str(text).lower())
+    print type("yes")
     if str(text).lower() is "yes":
         print text
         tellDriver(number, "Thank you for accepting to help this person! If you have any other questions, please ask!")
