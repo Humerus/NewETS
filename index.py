@@ -169,6 +169,7 @@ def signupapi():
 @socketio.on('updateLocation')
 def updateLocation(message):
     message = json.loads(message)
+    print message
     data = drivers.find_one({"number": int(message["number"])})
     data.update(message)
     drivers.update({"_id", data["_id"]}, data)
@@ -177,6 +178,7 @@ def updateLocation(message):
 @socketio.on('zipCode')
 def updateZipCode(message):
     message = json.loads(message)
+    print message
     data = drivers.find_one({"number": int(message["number"])})
     data.update(message)
     drivers.update({"_id", data["_id"]}, data)
