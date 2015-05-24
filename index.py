@@ -18,7 +18,7 @@ monkey.patch_all()
 
 # Flask
 app = Flask(__name__)
-app.debug = False
+app.debug = True
 
 app.config['SECRET_KEY'] = hashlib.sha256(str(time.time())+"secretssss!!!ssss").hexdigest()
 socketio = SocketIO(app)
