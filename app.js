@@ -23,6 +23,9 @@ app.get('/', function(req, res) {
     res.sendfile(__dirname + '/public/index.html');
 });
 
+app.get('/api/askDriver', api.askDriver);
+app.get('/api/parseMessage', api.parseMessage);
+
 app.use(function(req, res, next) {
     res.status(404);
     res.redirect("/");
