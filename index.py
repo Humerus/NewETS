@@ -139,7 +139,7 @@ def createAppointment():
             askDriver(i['number'], str_cli + " " + cit_cli + " " + sta_cli + " " + zip_cli, str_apt + " " + cit_apt + " " + sta_apt + " " + zip_apt, time_apt)
             i["notifiedFor"] = apt_id
             drivers.update({"_id": i["_id"]}, i)
-    return redirect(url_for("index"))
+    return redirect("/#managers", code=302)
 
 
 @app.route("/api/login", methods=['POST'])
