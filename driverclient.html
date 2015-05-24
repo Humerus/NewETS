@@ -31,7 +31,7 @@
         data["longitude"] = location.coords.longitude;
         data["timestamp"] = location.timestamp;
         socket.emit("updateLocation", JSON.stringify(data));
-        $("#data").text($("#data").text() + "\nLatitude:" + data["latitude"] + "; Longitude:" + data["longitude"]);
+        $("#data").text("Latitude:" + data["latitude"] + "; Longitude:" + data["longitude"] + "\n" + $("#data").text() );
         showPosition(location);
     }
 
