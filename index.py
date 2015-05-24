@@ -200,15 +200,16 @@ def askDriver(number, fromAddress, toAddress, time):
 @app.route("/api/parseMessage", methods=['GET'])
 def parseMessage():
     text = request.args.get("text", "")
-    
+
     if "yes" in str(text).lower():
-        tellDriver(request.args.get("msisdn", ""), "Thank you for accepting to help this person! If you have any other questions, please ask!")
-        driverYes(request.form.get("msisdn", ""))
+        tellDriver(int(request.args.get("msisdn", "")), "Thank you for accepting to help this person! If you have any other questions, please ask!")
+        driverYes(int(request.args.get("msisdn", "")))
     return jsonify(status=True)
 
 
 def tellDriver(number, message):
     r = requests.post("http://textbelt.com/text", data={"number": int(number), "message": message})
+    print r.text
     return True
 
 
