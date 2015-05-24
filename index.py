@@ -12,6 +12,7 @@ from pymongo import MongoClient
 from flask_sslify import SSLify
 from flask import Flask, request, session, g, redirect, url_for, abort, \
     render_template, flash, jsonify, make_response, send_from_directory
+from flask.ext.socketio import SocketIO, emit
 
 monkey.patch_all()
 
@@ -19,9 +20,12 @@ monkey.patch_all()
 app = Flask(__name__)
 app.debug = True
 
+app.config['SECRET_KEY'] = hashlib.sha256(str(time.time())+"secretssss!!!ssss").hexdigest()
+socketio = SocketIO(app)
+
 # sslify = SSLify(app)
 
-client = MongoClient("mongodb", 2000)
+client = MongoClient("104.236.35.207", 2000)
 db = client.ets
 drivers = db.drivers
 clients = db.clients
@@ -100,6 +104,11 @@ def loginhtml():
     return send_from_directory(".", "login.html")
 
 
+@app.route("/driverclient.html", methods=['GET'])
+def driverclienthtml():
+    return send_from_directory(".", "driverclient.html")
+
+
 @app.route("/api/createAppointment", methods=['POST'])
 def createAppointment():
     cli_name = request.form.get("cli_name", "")
@@ -157,6 +166,22 @@ def signupapi():
     return redirect(url_for("index"))
 
 
+@socketio.on('updateLocation')
+def updateLocation(message):
+    message = json.loads(message)
+    data = drivers.find_one({"number": int(message["number"])})
+    data.update(message)
+    drivers.update({"_id", data["_id"]}, data)
+
+
+@socketio.on('zipCode')
+def updateZipCode(message):
+    message = json.loads(message)
+    data = drivers.find_one({"number": int(message["number"])})
+    data.update(message)
+    drivers.update({"_id", data["_id"]}, data)
+
+
 #@app.route("/api/askDriver", methods=['POST'])
 def askDriver(number, fromAddress, toAddress, time):
     message = "Would you be able to drive a patient from " + fromAddress + " to " + toAddress + " at " + time + "? Please send a message saying YES or NO to: 12064306832"
@@ -176,8 +201,14 @@ def askDriver(number, fromAddress, toAddress, time):
 def parseMessage():
     text = request.form.get("text", "")
     if text is not "" and text.lower() is "yes":
+        tellDriver(number, "Thank you for accepting to help this person! If you have any other questions, please ask!")
         driverYes(request.form.get("msisdn", ""))
-        return jsonify(status=True)
+    return jsonify(status=True)
+
+
+def tellDriver(number, message):
+    r = requests.post("http://textbelt.com/text", data={"number": int(number), "message": message})
+    return True
 
 
 def driverYes(number):
@@ -205,7 +236,7 @@ if __name__ == "__main__":
         from werkzeug.contrib.fixers import ProxyFix
         app.wsgi_app = ProxyFix(app.wsgi_app)"""
 
-    if not app.debug:
+    """if not app.debug:
         http_server = WSGIServer(('', port_number), app)
         http_server.serve_forever()
         # app.run(host='0.0.0.0', port=port_number)
@@ -218,4 +249,5 @@ if __name__ == "__main__":
             http_server = WSGIServer(('', port_number), app)
             http_server.serve_forever()
 
-        run_debug_server()
+        run_debug_server()"""
+    socketio.run(app, host="0.0.0.0", port=port_number)
