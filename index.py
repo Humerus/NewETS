@@ -18,14 +18,14 @@ monkey.patch_all()
 
 # Flask
 app = Flask(__name__)
-app.debug = True
+app.debug = False
 
 app.config['SECRET_KEY'] = hashlib.sha256(str(time.time())+"secretssss!!!ssss").hexdigest()
 socketio = SocketIO(app)
 
 # sslify = SSLify(app)
 
-client = MongoClient("104.236.35.207", 2000)
+client = MongoClient("mongodb", 27017)
 db = client.ets
 drivers = db.drivers
 clients = db.clients
